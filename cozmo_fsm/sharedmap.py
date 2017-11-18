@@ -198,7 +198,7 @@ class ClientThread(threading.Thread):
             for key, value in self.robot.world.world_map.objects.items():
                 if isinstance(key,LightCube):
                     self.to_send["LightCubeForeignObj-"+str(value.id)]= LightCubeForeignObj(id=value.id, cozmo_id=self.robot.aruco_id, x=value.x, y=value.y, z=value.z, theta=value.theta)
-                elif isinstance(key,str) and 'Wall' in key and (if not isinstance(value,MarkerObj)):
+                elif isinstance(key,str) and 'Wall' in key and not isinstance(value,MarkerObj):
                     # Send walls
                     self.to_send[key] = value         # Fix case when object removed from shared map
                 else:
@@ -211,3 +211,4 @@ class ClientThread(threading.Thread):
                 if isinstance(x,str) and "Video" in x]},
                 self.to_send,
                 self.robot.world.particle_filter.pose])+b'end')
+
